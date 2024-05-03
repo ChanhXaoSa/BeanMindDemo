@@ -1,3 +1,4 @@
+import 'package:beanmind_demo/drag_and_drop_page.dart';
 import 'package:beanmind_demo/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity
       ),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: DragAndDropPage(),
     );
   }
 }
