@@ -1,5 +1,6 @@
 import 'package:beanmind_demo/drag_and_drop_page.dart';
 import 'package:beanmind_demo/home_page.dart';
+import 'package:beanmind_demo/math_game_page.dart';
 import 'package:beanmind_demo/question_voice_answer_page.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity
       ),
       debugShowCheckedModeBanner: false,
-      home: QuestionVoiceAnswerPage(),
+      home: MathGamePage(),
     );
   }
 }
