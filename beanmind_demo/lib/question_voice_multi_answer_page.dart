@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
-class QuestionVoiceAnswerPage extends StatefulWidget {
+class QuestionVoiceMultiAnswerPage extends StatefulWidget {
   @override
-  _QuestionVoiceAnswerPageState createState() => _QuestionVoiceAnswerPageState();
+  _QuestionVoiceMultiAnswerPageState createState() => _QuestionVoiceMultiAnswerPageState();
 }
 
-class _QuestionVoiceAnswerPageState extends State<QuestionVoiceAnswerPage> {
+class _QuestionVoiceMultiAnswerPageState extends State<QuestionVoiceMultiAnswerPage> {
   FlutterTts flutterTts = FlutterTts();
-  String question = "Chữ A là chữ nào aaaaaaa abdafbafdb fsdasdfbadf ?";
-  String answer = ""; // store user's answer
-  String correctAnswer = "A"; // example correct answer
+  String question = "Chọn câu có chữ A và chữ B ?";
+  List<String> answers = []; // store user's answers
+  List<String> correctAnswers = ["A","B"]; // example correct answers
 
   @override
   Widget build(BuildContext context) {
@@ -31,45 +31,52 @@ class _QuestionVoiceAnswerPageState extends State<QuestionVoiceAnswerPage> {
             SizedBox(height: 20),
             Text(question), // Display question
             SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Radio(
-                  value: 'A',
-                  groupValue: answer,
-                  onChanged: (value) {
-                    setState(() {
-                      answer = value!;
-                    });
-                  },
-                ),
-                Text('A'),
-                Radio(
-                  value: 'B',
-                  groupValue: answer,
-                  onChanged: (value) {
-                    setState(() {
-                      answer = value!;
-                    });
-                  },
-                ),
-                Text('B'),
-                Radio(
-                  value: 'C',
-                  groupValue: answer,
-                  onChanged: (value) {
-                    setState(() {
-                      answer = value!;
-                    });
-                  },
-                ),
-                Text('C'),
-              ],
+            CheckboxListTile(
+              title: Text('A'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 730 , vertical: 0),
+              value: answers.contains('A'),
+              onChanged: (value) {
+                setState(() {
+                  if (value!) {
+                    answers.add('A');
+                  } else {
+                    answers.remove('A');
+                  }
+                });
+              },
+            ),
+            CheckboxListTile(
+              title: Text('B'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 730 , vertical: 0),
+              value: answers.contains('B'),
+              onChanged: (value) {
+                setState(() {
+                  if (value!) {
+                    answers.add('B');
+                  } else {
+                    answers.remove('B');
+                  }
+                });
+              },
+            ),
+            CheckboxListTile(
+              title: Text('C'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 730 , vertical: 0),
+              value: answers.contains('C'),
+              onChanged: (value) {
+                setState(() {
+                  if (value!) {
+                    answers.add('C');
+                  } else {
+                    answers.remove('C');
+                  }
+                });
+              },
             ),
             ElevatedButton(
               onPressed: () {
-                // Check answer
-                if (answer == correctAnswer) {
+                // Check answers
+                if (answers.toSet().containsAll(correctAnswers)) {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
