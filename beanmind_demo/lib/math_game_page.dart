@@ -4,6 +4,8 @@ import 'package:beanmind_demo/const.dart';
 import 'package:beanmind_demo/util/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:lottie/lottie.dart';
 
 class MathGamePage extends StatefulWidget {
   @override
@@ -12,6 +14,7 @@ class MathGamePage extends StatefulWidget {
 
 class _MathGamePageState extends State<MathGamePage> {
   final FocusNode _resultFocusNode = FocusNode();
+  final AudioPlayer _audioPlayer = AudioPlayer();
   bool isFirstKeyEvent = true;
   bool showResultDialog = false;
 
@@ -103,6 +106,7 @@ class _MathGamePageState extends State<MathGamePage> {
     };
     if (numberA + numberB == int.parse(userAnswer)) {
       userPoint += 1;
+      _playSuccessSound();
       showDialog(
           context: context,
           builder: (context) {
@@ -118,6 +122,7 @@ class _MathGamePageState extends State<MathGamePage> {
                       'Correct!',
                       style: whiteTextStyle,
                     ),
+                    Lottie.asset('assets/lotties/success.json', height: 100),
                     GestureDetector(
                       onTap: goToNextQuestion,
                       child: Container(
@@ -187,9 +192,20 @@ class _MathGamePageState extends State<MathGamePage> {
     }
   }
 
+  void _playSuccessSound() async {
+    try {
+      await _audioPlayer.setAsset('assets/sounds/success.mp3');
+      _audioPlayer.play();
+    } catch (e, stacktrace) {
+      print('Error playing success sound: $e');
+      print(stacktrace);
+    }
+  }
+
   @override
   void dispose() {
     _resultFocusNode.dispose();
+    _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -245,6 +261,7 @@ class _MathGamePageState extends State<MathGamePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
+                          flex : 4,
                           child: Container(
                             alignment: Alignment.center,
                             child: Text(
@@ -258,6 +275,7 @@ class _MathGamePageState extends State<MathGamePage> {
                           ),
                         ),
                         Expanded(
+                          flex: 2,
                           child: Container(
                             alignment: Alignment.center,
                             child: GridView.builder(
@@ -267,7 +285,7 @@ class _MathGamePageState extends State<MathGamePage> {
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 4,
-                                        childAspectRatio: 1.2),
+                                        childAspectRatio: 0.9),
                                 itemBuilder: (context, index) {
                                   return MyButton(
                                     child: numberPad[index],
@@ -281,6 +299,7 @@ class _MathGamePageState extends State<MathGamePage> {
                   : Column(
                       children: [
                         Expanded(
+                          flex : 3,
                           child: Container(
                             alignment: Alignment.center,
                             child: Text(
@@ -294,6 +313,7 @@ class _MathGamePageState extends State<MathGamePage> {
                           ),
                         ),
                         Expanded(
+                          flex : 2,
                           child: Container(
                             alignment: Alignment.center,
                             child: GridView.builder(

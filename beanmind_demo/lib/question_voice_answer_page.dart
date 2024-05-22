@@ -8,7 +8,7 @@ class QuestionVoiceAnswerPage extends StatefulWidget {
 
 class _QuestionVoiceAnswerPageState extends State<QuestionVoiceAnswerPage> {
   FlutterTts flutterTts = FlutterTts();
-  String question = "Chữ A là chữ nào aaaaaaa abdafbafdb fsdasdfbadf ?";
+  String question = "Chữ A là chữ nào aaaaaaa abdafbafdb fsdasdfbadf Triệu gà ?";
   String answer = ""; // store user's answer
   String correctAnswer = "A"; // example correct answer
 
