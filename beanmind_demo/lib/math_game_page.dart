@@ -86,6 +86,7 @@ class _MathGamePageState extends State<MathGamePage> {
                       'Incorrect!',
                       style: whiteTextStyle,
                     ),
+                    Lottie.asset('assets/lotties/wrong.json', height: 100),
                     Center(
                       child: _videoPlayerController.value.isInitialized
                           ? AspectRatio(aspectRatio: _videoPlayerController.value.aspectRatio, child: VideoPlayer(_videoPlayerController),)
@@ -164,7 +165,7 @@ class _MathGamePageState extends State<MathGamePage> {
             return AlertDialog(
               backgroundColor: Colors.deepPurple,
               content: Container(
-                height: 200,
+                height: 400,
                 color: Colors.deepPurple,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -172,6 +173,20 @@ class _MathGamePageState extends State<MathGamePage> {
                     Text(
                       'Incorrect!',
                       style: whiteTextStyle,
+                    ),
+                    Lottie.asset('assets/lotties/wrong.json', height: 100),
+                    Center(
+                      child: _videoPlayerController.value.isInitialized
+                          ? AspectRatio(aspectRatio: _videoPlayerController.value.aspectRatio, child: VideoPlayer(_videoPlayerController),)
+                          : Container(),
+                    ),
+                    FloatingActionButton(onPressed: () {
+                      setState(() {
+                        _videoPlayerController.value.isPlaying ?
+                        _videoPlayerController.pause() : _videoPlayerController.play();
+                      });
+                    },
+                      child: Icon(_videoPlayerController.value.isPlaying ? Icons.pause : Icons.play_arrow),
                     ),
                     GestureDetector(
                       onTap: goToNextQuestion,
