@@ -18,10 +18,10 @@ class _BuildLayoutDemoState extends State<BuildLayoutDemo> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.network(
-                  'https://i.pinimg.com/236x/ab/3d/e2/ab3de2f5cc08f507f728f39c66e596b8.jpg',
-                  height: 50,
-                ),
+                // Image.network(
+                //   'https://i.pinimg.com/236x/ab/3d/e2/ab3de2f5cc08f507f728f39c66e596b8.jpg',
+                //   height: 50,
+                // ),
                 Text(
                   'BeanMind',
                   style: TextStyle(fontSize: 24, color: Colors.white),

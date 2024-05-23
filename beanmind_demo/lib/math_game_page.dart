@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
+import 'package:video_player/video_player.dart';
 
 class MathGamePage extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class MathGamePage extends StatefulWidget {
 class _MathGamePageState extends State<MathGamePage> {
   final FocusNode _resultFocusNode = FocusNode();
   final AudioPlayer _audioPlayer = AudioPlayer();
+  late VideoPlayerController _videoPlayerController;
   bool isFirstKeyEvent = true;
   bool showResultDialog = false;
 
@@ -68,14 +70,14 @@ class _MathGamePageState extends State<MathGamePage> {
     setState(() {
       showResultDialog = true;
     });
-    if(userAnswer.isEmpty) {
+    if (userAnswer.isEmpty) {
       showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
               backgroundColor: Colors.deepPurple,
               content: Container(
-                height: 200,
+                height: 400,
                 color: Colors.deepPurple,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -83,6 +85,19 @@ class _MathGamePageState extends State<MathGamePage> {
                     Text(
                       'Incorrect!',
                       style: whiteTextStyle,
+                    ),
+                    Center(
+                      child: _videoPlayerController.value.isInitialized
+                          ? AspectRatio(aspectRatio: _videoPlayerController.value.aspectRatio, child: VideoPlayer(_videoPlayerController),)
+                          : Container(),
+                    ),
+                    FloatingActionButton(onPressed: () {
+                      setState(() {
+                        _videoPlayerController.value.isPlaying ?
+                        _videoPlayerController.pause() : _videoPlayerController.play();
+                      });
+                    },
+                      child: Icon(_videoPlayerController.value.isPlaying ? Icons.pause : Icons.play_arrow),
                     ),
                     GestureDetector(
                       onTap: goToNextQuestion,
@@ -103,7 +118,8 @@ class _MathGamePageState extends State<MathGamePage> {
             );
           });
       return;
-    };
+    }
+    ;
     if (numberA + numberB == int.parse(userAnswer)) {
       userPoint += 1;
       _playSuccessSound();
@@ -175,7 +191,8 @@ class _MathGamePageState extends State<MathGamePage> {
               ),
             );
           });
-    };
+    }
+    ;
   }
 
   var randomNumber = Random();
@@ -206,12 +223,16 @@ class _MathGamePageState extends State<MathGamePage> {
   void dispose() {
     _resultFocusNode.dispose();
     _audioPlayer.dispose();
+    _videoPlayerController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
+    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
+      ..initialize().then((value) => {setState(() {})});
   }
 
   @override
@@ -261,7 +282,7 @@ class _MathGamePageState extends State<MathGamePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
-                          flex : 4,
+                          flex: 4,
                           child: Container(
                             alignment: Alignment.center,
                             child: Text(
@@ -299,7 +320,7 @@ class _MathGamePageState extends State<MathGamePage> {
                   : Column(
                       children: [
                         Expanded(
-                          flex : 3,
+                          flex: 3,
                           child: Container(
                             alignment: Alignment.center,
                             child: Text(
@@ -313,7 +334,7 @@ class _MathGamePageState extends State<MathGamePage> {
                           ),
                         ),
                         Expanded(
-                          flex : 2,
+                          flex: 2,
                           child: Container(
                             alignment: Alignment.center,
                             child: GridView.builder(
